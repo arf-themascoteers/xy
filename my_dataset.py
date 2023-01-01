@@ -1,14 +1,13 @@
 import torch
 from sklearn.model_selection import train_test_split
-import pandas as pd
 from torch.utils.data import Dataset
 
 
 class MyDataset(Dataset):
     def __init__(self, is_train=True):
-        sm = pd.read_csv("data.csv").to_numpy()
-        X = sm[:, 0:2]
-        y = sm[:, 2]
+        torch.manual_seed(0)
+        X = torch.rand((1000,2))
+        y = (X[:,0]**2) + (X[:,0] * X[:,1])
 
         self.X, X_test, self.y, y_test = train_test_split(X, y, random_state=1, test_size=0.4)
 
