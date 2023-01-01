@@ -11,7 +11,7 @@ class MyDataset(Dataset):
         X = sm[:, 0:2]
         y = sm[:, 2]
 
-        self.X, X_test, self.y, y_test = train_test_split(X, y, random_state=1)
+        self.X, X_test, self.y, y_test = train_test_split(X, y, random_state=1, test_size=0.4)
 
         if not is_train:
             self.X = X_test

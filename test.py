@@ -6,7 +6,6 @@ from sklearn.metrics import r2_score
 
 
 def test():
-    IS_LSTM = False
     BATCH_SIZE = 2000
     dataset = MyDataset(is_train=False)
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)

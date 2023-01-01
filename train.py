@@ -3,10 +3,10 @@ from my_dataset import MyDataset
 from torch.utils.data import DataLoader
 import torch
 
+
 def train():
-    IS_LSTM = False
     NUM_EPOCHS = 200
-    BATCH_SIZE = 500
+    BATCH_SIZE = 2000
 
     dataset = MyDataset(is_train=True)
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
