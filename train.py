@@ -8,7 +8,7 @@ def train():
     NUM_EPOCHS = 800
     BATCH_SIZE = 2000
 
-    dataset = MyDataset(is_train=True)
+    dataset = MyDataset()
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
     model = MyMachine()
     model.train()

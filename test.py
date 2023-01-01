@@ -7,7 +7,7 @@ from sklearn.metrics import r2_score
 
 def test():
     BATCH_SIZE = 2000
-    dataset = MyDataset(is_train=False)
+    dataset = MyDataset()
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)
     model = MyMachine()
     model.load_state_dict(torch.load("model.h5"))
