@@ -5,7 +5,7 @@ import torch
 
 
 def train():
-    NUM_EPOCHS = 200
+    NUM_EPOCHS = 800
     BATCH_SIZE = 2000
 
     dataset = MyDataset(is_train=True)
