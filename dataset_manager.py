@@ -14,9 +14,9 @@ def rgb_to_hsv(X):
 
 def create_dataset():
     source = "data.csv"
-    r = torch.linspace(0, 1, 10)
-    g = torch.linspace(0, 1, 10)
-    b = torch.linspace(0, 1, 10)
+    r = torch.linspace(0, 1, 50)
+    g = torch.linspace(0, 1, 50)
+    b = torch.linspace(0, 1, 50)
     X = torch.cartesian_prod(r,g,b)
     y = rgb_to_hsv(X)
     all = torch.concat((X, y), dim=1)
@@ -29,9 +29,7 @@ def get_dataset():
     source = "data.csv"
     if not os.path.exists(source):
         create_dataset()
-    data = pd.read_csv(source).to_numpy()
-    X, y = data[:,0:3], data[:,3:]
-    return X, y
+    return pd.read_csv(source).to_numpy()
 
 
 if __name__ == "__main__":

@@ -11,14 +11,14 @@ from sklearn.model_selection import train_test_split
 def train(X, y):
     model = MyMachine()
     model.train()
-    NUM_EPOCHS = 800
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
+    NUM_EPOCHS = 2000
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-5)
     criterion = torch.nn.MSELoss(reduction='mean')
 
     for epoch in range(NUM_EPOCHS):
         optimizer.zero_grad()
         y_pred = model(X)
-        y_pred = y_pred.reshape(-1)
+        #y_pred = y_pred.reshape(-1)
         loss = criterion(y_pred, y)
         loss.backward()
         optimizer.step()
@@ -38,7 +38,12 @@ def test(X, y):
 
 
 if __name__ == "__main__":
-    X, y = get_dataset()
-    train_x, train_y, text_x, test_y = train_test_split(X, y)
+    train_data, test_data = train_test_split(get_dataset(), random_state=1)
+
+    train_x = torch.tensor(train_data[:,0:3], dtype=torch.float32)
+    train_y = torch.tensor(train_data[:,3:], dtype=torch.float32)
     train(train_x, train_y)
-    test(text_x, test_y)
+
+    test_x = torch.tensor(test_data[:,0:3], dtype=torch.float32)
+    test_y = torch.tensor(test_data[:,3:], dtype=torch.float32)
+    test(test_x, test_y)
