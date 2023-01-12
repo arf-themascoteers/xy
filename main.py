@@ -2,44 +2,15 @@ import torch
 from torch import nn
 from sklearn.metrics import r2_score
 import colour
+import pandas as pd
+from my_machine import MyMachine
+from dataset_manager import get_dataset
+from sklearn.model_selection import train_test_split
 
 
-class MyMachine(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc = nn.Sequential(
-            nn.Linear(3,10),
-            nn.LeakyReLU(),
-            nn.Linear(20,10),
-            nn.LeakyReLU(),
-            nn.Linear(10,3)
-        )
-
-    def forward(self, x):
-        x = self.fc(x)
-        return x
-
-def rgb_to_hsv(r,g,b):
-    hsv_array = torch.zeros((r.shape[0],3), dtype = torch.float32)
-    for i in range(r.shape[0]):
-        hsv = colour.RGB_TO_HSV(r[i], g[i], b[i])
-        hsv_array[i,0], hsv_array[i,1], hsv_array[i,2] = hsv[0], hsv[1], hsv[2]
-    return hsv_array
-
-def get_dataset():
-        r = torch.linspace(0,1,1000).reshape(-1,1)
-        g = torch.linspace(0,1,1000).reshape(-1,1)
-        b = torch.linspace(0,1,1000).reshape(-1,1)
-        X = torch.concat((r,g,b), dim=1)
-        y = rgb_to_hsv(r,g,b)
-        all = torch.concat((X,y), dim=1)
-        return X, y
-
-
-def train():
+def train(X, y):
     model = MyMachine()
     model.train()
-    X, y = get_dataset()
     NUM_EPOCHS = 800
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
     criterion = torch.nn.MSELoss(reduction='mean')
@@ -56,12 +27,18 @@ def train():
     return model
 
 
-def test():
+def test(X, y):
     model = MyMachine()
     model.load_state_dict(torch.load("model.h5"))
     model.eval()
-    X, y = get_dataset()
 
     with torch.no_grad():
         y_pred = model(X)
         print(r2_score(y, y_pred))
+
+
+if __name__ == "__main__":
+    X, y = get_dataset()
+    train_x, train_y, text_x, test_y = train_test_split(X, y)
+    train(train_x, train_y)
+    test(text_x, test_y)
