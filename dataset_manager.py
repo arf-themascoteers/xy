@@ -30,7 +30,7 @@ def get_dataset():
     if not os.path.exists(source):
         create_dataset()
     data = pd.read_csv(source).to_numpy()
-    X, y = data[:,0:3], data[:3:]
+    X, y = data[:,0:3], data[:,3:]
     return X, y
 
 
