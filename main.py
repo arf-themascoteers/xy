@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 def train(X, y):
     model = MyMachine()
     model.train()
-    NUM_EPOCHS = 2000
+    NUM_EPOCHS = 100
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-5)
     criterion = torch.nn.MSELoss(reduction='mean')
 
