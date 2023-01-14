@@ -7,9 +7,7 @@ class MyMachine(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(3,7),
             nn.LeakyReLU(),
-            nn.Linear(7,5),
-            nn.LeakyReLU(),
-            nn.Linear(5,3)
+            nn.Linear(7,1)
         )
 
     def forward(self, x):

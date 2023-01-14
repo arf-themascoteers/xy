@@ -4,23 +4,13 @@ import pandas as pd
 import os
 
 
-def rgb_to_hsv(X):
-    hsv_array = torch.zeros((X.shape[0],3), dtype = torch.float32)
-    for i in range(X.shape[0]):
-        hsv = colour.RGB_to_HSV([X[i][0].item(), X[i][1].item(), X[i][2].item()])
-        hsv_array[i,0], hsv_array[i,1], hsv_array[i,2] = hsv[0], hsv[1], hsv[2]
-    return hsv_array
-
-
 def create_dataset():
     source = "data.csv"
-    r = torch.linspace(0, 1, 13)
-    g = torch.linspace(0, 1, 13)
-    b = torch.linspace(0, 1, 13)
-    X = torch.cartesian_prod(r,g,b)
-    y = rgb_to_hsv(X)
+    X = torch.rand((1000,3))
+    y = 3*X[:,0] + 2 * X[:,1] + 0.6
+    y = y.reshape(-1,1)
     all = torch.concat((X, y), dim=1)
-    columns = ["r", "g", "b", "h", "s", "v"]
+    columns = ["x1", "x2", "x3", "y"]
     df = pd.DataFrame(data=all, columns=columns)
     df.to_csv(source, index=False)
 
@@ -33,4 +23,4 @@ def get_dataset():
 
 
 if __name__ == "__main__":
-    X, y = get_dataset()
+    d = get_dataset()
