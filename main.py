@@ -6,7 +6,8 @@ import pandas as pd
 from my_machine import MyMachine
 from dataset_manager import get_dataset
 from sklearn.model_selection import train_test_split
-
+from sklearn.linear_model import LinearRegression
+from matplotlib import pyplot as plt
 
 def train(X, y):
     model = MyMachine()
@@ -40,10 +41,21 @@ def test(X, y):
 if __name__ == "__main__":
     train_data, test_data = train_test_split(get_dataset(), random_state=1)
 
-    train_x = torch.tensor(train_data[:,0:3], dtype=torch.float32)
-    train_y = torch.tensor(train_data[:,3], dtype=torch.float32)
+    train_x = torch.tensor(train_data[:,0:-1], dtype=torch.float32)
+    train_y = torch.tensor(train_data[:,-1], dtype=torch.float32)
     train(train_x, train_y)
 
-    test_x = torch.tensor(test_data[:,0:3], dtype=torch.float32)
-    test_y = torch.tensor(test_data[:,3], dtype=torch.float32)
+    test_x = torch.tensor(test_data[:,0:-1], dtype=torch.float32)
+    test_y = torch.tensor(test_data[:,-1], dtype=torch.float32)
     test(test_x, test_y)
+
+    plt.scatter(train_x.squeeze(), train_y)
+    plt.show()
+
+    plt.scatter(test_x.squeeze(), test_y)
+    plt.show()
+
+    model = LinearRegression()
+    model = model.fit(train_x, train_y)
+    r2 = model.score(test_x, test_y)
+    print("LR",r2)
