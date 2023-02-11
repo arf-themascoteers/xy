@@ -5,11 +5,12 @@ import os
 import math
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
+import numpy as np
 
 
 def create_dataset():
     source = "data.csv"
-    X = torch.linspace(0,1,100).reshape(-1,2)
+    X = torch.tensor(np.random.uniform(-10,10, size=(20000,2)))
     y = torch.max(X,dim=1).values
     y = y.reshape(-1,1)
     all = torch.concat((X, y), dim=1)

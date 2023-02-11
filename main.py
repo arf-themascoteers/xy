@@ -10,7 +10,7 @@ from sklearn.linear_model import LinearRegression
 from matplotlib import pyplot as plt
 
 def train(X, y):
-    model = MyMachine()
+    model = MyMachine(X.shape[1])
     model.train()
     NUM_EPOCHS = 1000
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-1, weight_decay=1e-5)
@@ -29,7 +29,7 @@ def train(X, y):
 
 
 def test(X, y):
-    model = MyMachine()
+    model = MyMachine(X.shape[1])
     model.load_state_dict(torch.load("model.h5"))
     model.eval()
 
@@ -45,7 +45,7 @@ def do_linear(train_x, train_y, test_x, test_y):
     print("LR",r2)
 
 if __name__ == "__main__":
-    train_data, test_data = train_test_split(get_dataset(), random_state=1)
+    train_data, test_data = train_test_split(get_dataset(), random_state=1, test_size=0.4)
 
     train_x = torch.tensor(train_data[:,0:-1], dtype=torch.float32)
     train_y = torch.tensor(train_data[:,-1], dtype=torch.float32)
