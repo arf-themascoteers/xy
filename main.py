@@ -13,7 +13,7 @@ def train(X, y):
     model = MyMachine()
     model.train()
     NUM_EPOCHS = 1000
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-5)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-1, weight_decay=1e-5)
     criterion = torch.nn.MSELoss(reduction='mean')
 
     for epoch in range(NUM_EPOCHS):
@@ -38,6 +38,12 @@ def test(X, y):
         print(r2_score(y, y_pred))
 
 
+def do_linear(train_x, train_y, test_x, test_y):
+    model = LinearRegression()
+    model = model.fit(train_x, train_y)
+    r2 = model.score(test_x, test_y)
+    print("LR",r2)
+
 if __name__ == "__main__":
     train_data, test_data = train_test_split(get_dataset(), random_state=1)
 
@@ -49,13 +55,10 @@ if __name__ == "__main__":
     test_y = torch.tensor(test_data[:,-1], dtype=torch.float32)
     test(test_x, test_y)
 
-    plt.scatter(train_x.squeeze(), train_y)
-    plt.show()
+    # plt.scatter(train_x.squeeze(), train_y)
+    # plt.show()
+    #
+    # plt.scatter(test_x.squeeze(), test_y)
+    # plt.show()
 
-    plt.scatter(test_x.squeeze(), test_y)
-    plt.show()
-
-    model = LinearRegression()
-    model = model.fit(train_x, train_y)
-    r2 = model.score(test_x, test_y)
-    print("LR",r2)
+    #do_linear(train_x, train_y, test_x, test_y)
