@@ -13,7 +13,7 @@ def create_dataset():
     y = torch.max(X,dim=1).values
     y = y.reshape(-1,1)
     all = torch.concat((X, y), dim=1)
-    columns = ["x", "y"]
+    columns = ["x1", "x2", "y"]
     df = pd.DataFrame(data=all, columns=columns)
     df.to_csv(source, index=False)
 
